@@ -10,6 +10,18 @@ void celula::adicionarVizinha(celula * Celula){
 void celula::defineEstado(bool viva){
     this->Viva = viva;
 }
+void celula::defineEstadoView(){
+    if(visual->getFillColor() == corViva)
+        Viva = true;
+    if(visual->getFillColor() == corMorta)
+        Viva = false;
+}
+void celula::defineCorViva(sf::Color cor){
+    corViva = cor;
+}
+void celula::defineCorMorta(sf::Color cor){
+    corMorta = cor;
+}
 void celula::processaProxG(){
     set<celula*>::iterator itr;
     int vidas=0;
