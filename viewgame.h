@@ -7,6 +7,9 @@ class view{
     view(int janelaX, int janelaY, int m, int n);
     void atualiza();
     bool aberta();
+    sf::RectangleShape *** getViews();
+    sf::RenderWindow * getWindow();
+    
     private:
     int JanelaX, JanelaY,M,N;
     sf::Event event;
@@ -19,6 +22,7 @@ class view{
     void DesenhaShapes();
     void doEvents();
     void sleep(float segundos);
-    
+    void lidaComMouse(sf::Event);
+    void lidaComTeclado(sf::Event);
 };
 #endif

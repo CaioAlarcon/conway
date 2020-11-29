@@ -1,13 +1,55 @@
 #include "cultura.h"
-#include <stdlib.h>
+#include <stdlib.h> 
 
-
+//Public
 cultura::cultura(int Largura, int Comprimento){
     this->Largura = Largura;
     this->Comprimento = Comprimento;
     criarCelulas();
     adicionarVizinhos();
 }
+void cultura::defineVida(int largura, int comprimento, bool vivo){
+    Celulas[largura][comprimento]->defineEstado(vivo);
+}
+void cultura::associaViews(){
+    int i,j;
+    for(i=0;i<Largura;i++)
+        for(j=0;j<Comprimento;j++)
+            Celulas[i][j]->cadastrarView(retangulos[i][j]);
+
+}
+void cultura::setViews(sf::RectangleShape *** views){
+    retangulos = views;
+}
+void cultura::associaValores(){
+    int i,j;
+    for(i=0;i<Largura;i++)
+        for(j=0;j<Comprimento;j++)
+            Celulas[i][j]->defineEstadoView();
+
+}
+celula * cultura::getCelula(int x,int y){
+
+    return  Celulas [x%(unsigned int)Largura][y%(unsigned int)Comprimento];
+}
+void cultura::atualizaView(){
+    int i,j;
+    for(i=0;i<Largura;i++)
+        for(j=0;j<Comprimento;j++)
+            getCelula(i,j)->atualizaView();
+}
+void cultura::proxGen(){
+    int i,j;
+    for(i=0;i<Largura;i++)
+        for(j=0;j<Comprimento;j++)
+            getCelula(i,j)->processaProxG();
+    //int i,j;
+    for(i=0;i<Largura;i++)
+        for(j=0;j<Comprimento;j++)
+            getCelula(i,j)->atualizaG();
+}
+
+//Private
 void cultura::criarCelulas(){
     int i,j,m,n;
     m=Largura;
@@ -27,22 +69,5 @@ void cultura::adicionarVizinhos(){
         for(Y=0;Y<this->Comprimento;Y++)
             for(i=-1;i<2;i++)
                 for(j=-1;j<2;j++)
-                    this->Celulas[X][Y]->adicionarVizinha(this->Celulas[X+i][Y+j]);
-}
-void cultura::defineVida(int largura, int comprimento, bool vivo){
-    Celulas[largura][comprimento]->defineEstado(vivo);
-}
-void cultura::associaViews(){
-    int i,j;
-    for(i=0;i<Largura;i++)
-        for(j=0;j<Comprimento;j++)
-            Celulas[i][j]->cadastrarView(retangulos[i][j]);
-
-}
-void cultura::associaValores(){
-    int i,j;
-    for(i=0;i<Largura;i++)
-        for(j=0;j<Comprimento;j++)
-            Celulas[i][j]->defineEstadoView();
-
+                    this->Celulas[X][Y]->adicionarVizinha(getCelula(X+i,Y+j));
 }

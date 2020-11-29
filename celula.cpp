@@ -1,7 +1,10 @@
 #include "celula.h"
 
+//Public
 celula::celula(bool viva){
-    this->Viva = viva;
+    corViva = corViva.Blue;
+    corMorta = corMorta.Red;
+    Viva = viva;
 }
 void celula::adicionarVizinha(celula * Celula){
     if(Celula!=this)
@@ -15,6 +18,12 @@ void celula::defineEstadoView(){
         Viva = true;
     if(visual->getFillColor() == corMorta)
         Viva = false;
+}
+void celula::atualizaView(){
+    if(Viva)
+        visual->setFillColor(corViva);
+    else
+        visual->setFillColor(corMorta);
 }
 void celula::defineCorViva(sf::Color cor){
     corViva = cor;
@@ -30,13 +39,13 @@ void celula::processaProxG(){
     }
     if(Viva){
         if(vidas == 2 || vidas == 3)
-            Viva = true;
+            VivaProxG = true;
         else
-            Viva = false;
+            VivaProxG = false;
     }else if(vidas == 3)
-        Viva = true;
+        VivaProxG = true;
     else
-        Viva = false;
+        VivaProxG = false;
 }
 void celula::atualizaG(){
     Viva = VivaProxG;
@@ -47,3 +56,6 @@ bool celula::estadoAtual(){
 void celula::cadastrarView(sf::RectangleShape * shape){
     visual = shape;
 }
+
+//Private
+
