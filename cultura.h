@@ -18,7 +18,7 @@ class cultura{
     void setViews(sf::RectangleShape ***);
     celula * getCelula(int,int);                //retorna a celula da posição x, y
     void atualizaView();                        //Atualiza estado da view baseadod no estado da cultura
-    
+    void atualizaGrafico();
     
     private:
     void criarCelulas();                        //Cria as células necessárias

@@ -7,7 +7,7 @@ public:
         std::unique_lock<std::mutex> lock(mtx);
         cv.notify_one();
     }
-    inline void notify( int tid ) {
+    inline void notifyAll( int tid ) {
         std::unique_lock<std::mutex> lock(mtx);
         cv.notify_all();
     }
