@@ -1,5 +1,6 @@
 #include "celula.h"
 
+
 //Public
 celula::celula(bool viva){
     corViva = corViva.Blue;
@@ -31,7 +32,7 @@ void celula::defineCorViva(sf::Color cor){
 void celula::defineCorMorta(sf::Color cor){
     corMorta = cor;
 }
-void celula::processaProxG(){
+void celula::processaProxG(){//a thread tem que ver se tem alguém aqui dentro já, se já tiver vaza
     set<celula*>::iterator itr;
     int vidas=0;
     for (itr = vizinhas.begin();itr != vizinhas.end(); itr++){

@@ -1,4 +1,6 @@
+
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 #ifndef _view_
 #define _view_
@@ -20,9 +22,10 @@ class view{
     float altura();
     void InsereShapes();
     void DesenhaShapes();
-    void doEvents();
+    void eventos();
     void sleep(float segundos);
     void lidaComMouse(sf::Event);
     void lidaComTeclado(sf::Event);
+    sf::Thread * threadEventos;
 };
 #endif

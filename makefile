@@ -1,4 +1,4 @@
 all:
-	g++ conway.cpp -o conway -lsfml-graphics -lsfml-window -lsfml-system
+	g++ *.cpp -o prog -lsfml-graphics -lsfml-window -lsfml-system -std=gnu++11 -W -g
 run:
-	./conway
+	./prog
