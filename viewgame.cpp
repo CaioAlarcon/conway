@@ -88,28 +88,27 @@ void view::sleep(float segundos){
 }
 void view::lidaComTeclado(sf::Event event){
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space )){
-        window->setTitle("buanha");
+        window->setTitle("teclou!");
     }
 }
-void view::lidaComMouse(sf::Event event){
+void view::onClick(){
     int i, j;
     sf::Color cor;
-    
-    if(event.type == sf::Event::MouseButtonPressed)
-        for(i=0;i<M;i++)
+    for(i=0;i<M;i++)
             for(j=0;j<N;j++){
                 sf::FloatRect Box(shapes[i][j]->getPosition().x, shapes[i][j]->getPosition().y, 
                                                 shapes[i][j]->getSize().x, shapes[i][j]->getSize().y);
                 
                 if(Box.contains(event.mouseButton.x,event.mouseButton.y)){
-                    
-                    shapes[i][j]->setFillColor(cor.Yellow);
-
+                    shapes[i][j]->setFillColor(cor.Blue);
                 }
                 
             }
-    else if (event.type == sf::Event::MouseMoved) {
-        for(i=0;i<M;i++)
+}
+void view::onMove(){
+    int i, j;
+    sf::Color cor;
+    for(i=0;i<M;i++)
             for(j=0;j<N;j++){
                 sf::FloatRect Box(shapes[i][j]->getPosition().x, shapes[i][j]->getPosition().y, 
                                                 shapes[i][j]->getSize().x, shapes[i][j]->getSize().y);
@@ -119,6 +118,15 @@ void view::lidaComMouse(sf::Event event){
                 }
                 
             }
+}
+void view::lidaComMouse(sf::Event event){
+    int i, j;
+    sf::Color cor;
+    
+    if(event.type == sf::Event::MouseButtonPressed)
+        onClick();
+    else if (event.type == sf::Event::MouseMoved) {
+        onMove();
     }
     
 }
