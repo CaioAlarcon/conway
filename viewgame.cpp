@@ -6,10 +6,12 @@ view::view(int janelaX, int janelaY, int m, int n){
         JanelaX = janelaX; JanelaY = janelaY;M = m;N=n;
         window = new sf::RenderWindow(sf::VideoMode(JanelaX, JanelaY), "Conway vive!");
         InsereShapes();
+
+        threadEventos = new sf::Thread(&view::eventos, this);
+        threadEventos->launch();
+        
     }
 void view::atualiza(){
-    doEvents();
-
     window->clear();
     DesenhaShapes();
 
@@ -64,17 +66,20 @@ void view::DesenhaShapes(){
 
 
 //se os eventos não ficarem sendo tratados constantemente a janela trava e o sistema emite msg falando que o programa não está respondendo.
-void view::doEvents(){
-    while (window->pollEvent(event)){//tratar o evento da barra do espaço para pausar o jogo
-        switch (event.type){
-            case sf::Event::MouseButtonPressed:
-            case sf::Event::MouseMoved :
-                lidaComMouse(event);break;
-            case sf::Event::KeyPressed: lidaComTeclado(event); break;
-            case (sf::Event::Closed): window->close();
+void view::eventos(){
+    while(true){
+        while (window->pollEvent(event)){//lembrar de tratar o evento da barra do espaço para pausar o jogo
+            switch (event.type){
+                case sf::Event::MouseButtonPressed:
+                case sf::Event::MouseMoved :
+                    lidaComMouse(event);break;
+                case sf::Event::KeyPressed: lidaComTeclado(event); break;
+                case (sf::Event::Closed): window->close();
 
+            }
+            
         }
-        
+        sf::sleep(sf::milliseconds(12.0f));
     }
 }
 void view::sleep(float segundos){
