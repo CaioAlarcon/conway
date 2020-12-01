@@ -1,4 +1,5 @@
 all:
-	g++ *.cpp -o prog -pthread -lsfml-graphics -lsfml-window -lsfml-system
+	g++ *.cpp -o prog -pthread -lsfml-graphics -lsfml-window -lsfml-system -std=gnu++11
 run:
 	./prog
+
