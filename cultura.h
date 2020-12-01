@@ -1,4 +1,6 @@
 #include "celula.h"
+#include <thread>
+#include "viewgame.h"
 
 //quantas células tem
 //atualizarviwew
@@ -16,7 +18,7 @@ class cultura{
     void setViews(sf::RectangleShape ***);
     celula * getCelula(int,int);                //retorna a celula da posição x, y
     void atualizaView();                        //Atualiza estado da view baseadod no estado da cultura
-    
+    void atualizaGrafico();
 
     private:
     void criarCelulas();                        //Cria as células necessárias
@@ -24,6 +26,9 @@ class cultura{
     int Largura, Comprimento, Geracao;          //Variáveis privadas
     celula *** Celulas = NULL;                  //Array dinâmico contendo endereço das células
     sf::RectangleShape *** retangulos = NULL;   //Array dinâmico contendo endereços das views
+    void controlador();
+    view * janela;
+    thread * controle;
 };
 
 

@@ -5,8 +5,25 @@
 cultura::cultura(int Largura, int Comprimento){
     this->Largura = Largura;
     this->Comprimento = Comprimento;
+    janela = new view(600,600,64,64);
+    
     criarCelulas();
     adicionarVizinhos();
+    
+    setViews(janela->getViews());//adiciona referencia da matriz de shapes na cultura
+    
+    associaViews();//insere views nas células
+    
+    associaValores();//atribui valor da view às células
+    
+    
+
+
+    controle = new thread(&cultura::controlador, this);
+    controle->detach();
+    
+    
+    
 }
 void cultura::defineVida(int largura, int comprimento, bool vivo){
     Celulas[largura][comprimento]->defineEstado(vivo);
@@ -38,7 +55,7 @@ void cultura::atualizaView(){
         for(j=0;j<Comprimento;j++)
             getCelula(i,j)->atualizaView();
 }
-void cultura::proxGen(){
+void cultura::proxGen(){//essa função tem que ser duas, cada qual com seu semaforo diferente
     int i,j;
     for(i=0;i<Largura;i++)
         for(j=0;j<Comprimento;j++)
@@ -48,8 +65,12 @@ void cultura::proxGen(){
         for(j=0;j<Comprimento;j++)
             getCelula(i,j)->atualizaG();
 }
+void cultura::atualizaGrafico(){
+    janela->atualiza();
+}
 
 //Private
+
 void cultura::criarCelulas(){
     int i,j,m,n;
     m=Largura;
@@ -70,4 +91,15 @@ void cultura::adicionarVizinhos(){
             for(i=-1;i<2;i++)
                 for(j=-1;j<2;j++)
                     this->Celulas[X][Y]->adicionarVizinha(getCelula(X+i,Y+j));
+}
+void cultura::controlador(){
+    
+
+    while(true){
+        this->atualizaGrafico();
+        this->proxGen();
+
+        this->atualizaView();
+        this_thread::sleep_for(std::chrono::milliseconds(150));
+    }
 }
