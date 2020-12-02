@@ -1,6 +1,7 @@
 #include <mutex>
 #include <condition_variable>
 
+
 class Semaforo {
 public:
     Semaforo(int threadsCount){
@@ -10,10 +11,12 @@ public:
         count = 0;
     }
     inline void notify() {
+
         std::unique_lock<std::mutex> lock(mtx);
         cv.notify_one();
         waiting--;
     }
+
     inline void notifyall() {
         std::unique_lock<std::mutex> lock(mtx);
         cv.notify_all();
@@ -34,6 +37,7 @@ public:
     void NotificaraTodos(Semaforo * quem){
         Quem = quem;
         notificar=true;
+
     }
 private:
     std::mutex mtx;
