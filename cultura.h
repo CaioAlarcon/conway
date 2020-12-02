@@ -11,7 +11,10 @@
 class cultura{
     public:
     cultura(int Largura, int Comprimento);      //Construtor baseado no tamanho bidimensional
-    
+    void inicializaJanela();
+    void inicializaJanela(int,int);
+    void reiniciaCultura();
+    void limparCultura();
     void defineVida(int, int, bool);            //alterar o valor das células individualmente
     void associaViews();                        //atribuir as views às células
     void associaValores();                      //atribuir valores das views às células
@@ -31,12 +34,15 @@ class cultura{
     void controlador();
     void ProcessaAutomato();
     bool Pause=false;
-    view * janela;
+    bool Reiniciar=false;
+    bool Limpar=false;
+    
+    view * janela=NULL;
     thread * controle;
     thread * Automacao[4];
     thread * threadEventos;
 
-    Semaforo * automato = new Semaforo(1);
+    Semaforo * automato = new Semaforo(4);
     Semaforo * sem_controle = new Semaforo(1);
     
 

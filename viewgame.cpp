@@ -6,10 +6,13 @@ view::view(int janelaX, int janelaY, int m, int n){
         JanelaX = janelaX; JanelaY = janelaY;M = m;N=n;
         window = new sf::RenderWindow(sf::VideoMode(JanelaX, JanelaY), "Conway vive!");
         InsereShapes();
-
-        
-        
-    }
+}
+view::~view(){
+    int i, j;
+    window->close();
+    
+    
+}
 void view::atualiza(){
     window->clear();
     DesenhaShapes();
@@ -58,6 +61,23 @@ void view::InsereShapes(){
         }
             
     
+}
+void view::randomizaShapes(){
+    int i, j,k=0;
+    
+    for (i=0;i<M;i++)
+        for (j=0;j<N;j++){
+            if(rand()%2==0)
+                shapes[i][j]->setFillColor(sf::Color::Red);
+            else
+                shapes[i][j]->setFillColor(sf::Color::Blue);
+        }
+}
+void view::limpaShapes(){
+    int i, j,k=0;
+    for (i=0;i<M;i++)
+        for (j=0;j<N;j++)
+            shapes[i][j]->setFillColor(sf::Color::Red);
 }
 void view::DesenhaShapes(){
     int i,j;
