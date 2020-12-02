@@ -10,7 +10,7 @@ int main(){
         
         sf::Time refresh = sf::seconds(8.8f);
         sf::sleep (refresh);
-}
+    }
 
 
     return 0;
