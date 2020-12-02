@@ -1,35 +1,56 @@
 #include <mutex>
 #include <condition_variable>
-#include <iostream>
 
-using namespace std;
-
-class Semaphore {
+class Semaforo {
 public:
-    Semaphore (int count_ = 0)
-    : count(count_) 
-    {
+    Semaforo(int threadsCount){
+        count = threadsCount;
     }
-    
-    inline void notify( int tid ) {
+    Semaforo(){
+        count = 0;
+    }
+    inline void notify() {
         std::unique_lock<std::mutex> lock(mtx);
-        count++;
-        cout << "thread " << tid <<  " notify" << endl;
-        //notify the waiting thread
         cv.notify_one();
+        waiting--;
     }
-    inline void wait( int tid ) {
+    inline void notifyall() {
         std::unique_lock<std::mutex> lock(mtx);
-        while(count == 0) {
-            cout << "thread " << tid << " wait" << endl;
-            //wait on the mutex until notify is called
-            cv.wait(lock);
-            cout << "thread " << tid << " run" << endl;
-        }
-        count--;
+        cv.notify_all();
+        waiting=0;
+    }
+    inline void wait() {
+        std::unique_lock<std::mutex> lock(mtx);
+        waiting++;
+        if(waiting == count)
+            esperando();
+        cv.wait(lock);
+    }
+
+    void Notificara(Semaforo * quem){
+        Quem = quem;
+        notificar = true;
+    }
+    void NotificaraTodos(Semaforo * quem){
+        Quem = quem;
+        notificar=true;
     }
 private:
     std::mutex mtx;
     std::condition_variable cv;
     int count;
+    int waiting=0;
+    bool notificar=false;
+    bool notificarTodos=false;
+    Semaforo * Quem;
+
+    void esperando(){
+        if(notificarTodos){
+            Quem->notifyall();
+            return;
+        }
+        if(notificar){
+            Quem->notify();
+        }
+    }
 };

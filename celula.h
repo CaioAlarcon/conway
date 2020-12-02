@@ -27,6 +27,7 @@ class celula{
     private:
     bool Viva;                                  //Estado atual da célula
     bool VivaProxG;                             //Indica se a célula estará viva na próxima geração, caso já tenha sido calculada
+    bool Processada=false;
     sf::Color corViva;                          //Representa qual cor da view a célula vai interpretar como viva
     sf::Color corMorta;                         //Representa qual cor da view a célula vai interpretar como morta
     std::set<celula*> vizinhas;                 //Conjunto contendo células vizinhas

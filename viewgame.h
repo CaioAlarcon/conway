@@ -13,11 +13,12 @@ class view{
     sf::RectangleShape *** getViews();
     sf::RenderWindow * getWindow();
     void getMessenger(fptr);
-
+    int linhas();
+    int colunas();
+    
     private:
     fptr Messenger;
     int JanelaX, JanelaY,M,N;
-    sf::Event event;
     sf::RenderWindow *window;
     sf::RectangleShape *shape;
     sf::RectangleShape ***shapes;
@@ -25,11 +26,10 @@ class view{
     float altura();
     void InsereShapes();
     void DesenhaShapes();
-    void eventos();
+    
     void sleep(float segundos);
-    void lidaComMouse(sf::Event);
-    void lidaComTeclado(sf::Event);
-    sf::Thread * threadEventos;
+
+    
     void onClick();
     void onMove();
     

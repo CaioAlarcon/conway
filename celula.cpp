@@ -34,22 +34,26 @@ void celula::defineCorMorta(sf::Color cor){
 }
 void celula::processaProxG(){//a thread tem que ver se tem alguém aqui dentro já, se já tiver vaza
     set<celula*>::iterator itr;
-    int vidas=0;
-    for (itr = vizinhas.begin();itr != vizinhas.end(); itr++){
-        if((**itr).Viva)vidas++;
-    }
-    if(Viva){
-        if(vidas == 2 || vidas == 3)
+    if(!Processada){
+        Processada = true;
+        int vidas=0;
+        for (itr = vizinhas.begin();itr != vizinhas.end(); itr++){
+            if((**itr).Viva)vidas++;
+        }
+        if(Viva){
+            if(vidas == 2 || vidas == 3)
+                VivaProxG = true;
+            else
+                VivaProxG = false;
+        }else if(vidas == 3)
             VivaProxG = true;
         else
             VivaProxG = false;
-    }else if(vidas == 3)
-        VivaProxG = true;
-    else
-        VivaProxG = false;
+    }
 }
 void celula::atualizaG(){
     Viva = VivaProxG;
+    Processada = false;
 }
 bool celula::estadoAtual(){
     return Viva;
