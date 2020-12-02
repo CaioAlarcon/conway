@@ -6,18 +6,18 @@ view::view(int janelaX, int janelaY, int m, int n){
         JanelaX = janelaX; JanelaY = janelaY;M = m;N=n;
         window = new sf::RenderWindow(sf::VideoMode(JanelaX, JanelaY), "Conway vive!");
         InsereShapes();
-
-        threadEventos = new sf::Thread(&view::eventos, this);
-        threadEventos->launch();
-        
-    }
+}
+view::~view(){
+    int i, j;
+    window->close();
+    
+    
+}
 void view::atualiza(){
     window->clear();
     DesenhaShapes();
 
     window->display();
-    sleep(0.012f);
-    
 }
 bool view::aberta(){
     return window->isOpen();
@@ -28,7 +28,12 @@ sf::RectangleShape *** view::getViews(){
 sf::RenderWindow * view::getWindow(){
     return window;
 }
-
+int view::linhas(){
+    return M;
+}
+int view::colunas(){
+    return N;
+}
 //Private
 float view::largura(){
     return (float)JanelaX/M;
@@ -57,6 +62,23 @@ void view::InsereShapes(){
             
     
 }
+void view::randomizaShapes(){
+    int i, j,k=0;
+    
+    for (i=0;i<M;i++)
+        for (j=0;j<N;j++){
+            if(rand()%2==0)
+                shapes[i][j]->setFillColor(sf::Color::Red);
+            else
+                shapes[i][j]->setFillColor(sf::Color::Blue);
+        }
+}
+void view::limpaShapes(){
+    int i, j,k=0;
+    for (i=0;i<M;i++)
+        for (j=0;j<N;j++)
+            shapes[i][j]->setFillColor(sf::Color::Red);
+}
 void view::DesenhaShapes(){
     int i,j;
     for(i=0;i<M;i++)
@@ -65,61 +87,7 @@ void view::DesenhaShapes(){
 }
 
 
-//se os eventos não ficarem sendo tratados constantemente a janela trava e o sistema emite msg falando que o programa não está respondendo.
-void view::eventos(){
-    while(true){
-        while (window->pollEvent(event)){//lembrar de tratar o evento da barra do espaço para pausar o jogo
-            switch (event.type){
-                case sf::Event::MouseButtonPressed:
-                case sf::Event::MouseMoved :
-                    lidaComMouse(event);break;
-                case sf::Event::KeyPressed: lidaComTeclado(event); break;
-                case (sf::Event::Closed): window->close();
-
-            }
-            
-        }
-        sf::sleep(sf::milliseconds(12.0f));
-    }
-}
 void view::sleep(float segundos){
     sf::Time refresh = sf::seconds(segundos);
     sf::sleep (refresh);
 }
-void view::lidaComTeclado(sf::Event event){
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space )){
-        window->setTitle("buanha");
-    }
-}
-void view::lidaComMouse(sf::Event event){
-    int i, j;
-    sf::Color cor;
-    
-    if(event.type == sf::Event::MouseButtonPressed)
-        for(i=0;i<M;i++)
-            for(j=0;j<N;j++){
-                sf::FloatRect Box(shapes[i][j]->getPosition().x, shapes[i][j]->getPosition().y, 
-                                                shapes[i][j]->getSize().x, shapes[i][j]->getSize().y);
-                
-                if(Box.contains(event.mouseButton.x,event.mouseButton.y)){
-                    
-                    shapes[i][j]->setFillColor(cor.Yellow);
-
-                }
-                
-            }
-    else if (event.type == sf::Event::MouseMoved) {
-        for(i=0;i<M;i++)
-            for(j=0;j<N;j++){
-                sf::FloatRect Box(shapes[i][j]->getPosition().x, shapes[i][j]->getPosition().y, 
-                                                shapes[i][j]->getSize().x, shapes[i][j]->getSize().y);
-                
-                if(Box.contains(event.mouseMove.x,event.mouseMove.y)){
-                    shapes[i][j]->setFillColor(cor.Green);
-                }
-                
-            }
-    }
-    
-}
-

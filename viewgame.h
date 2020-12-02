@@ -1,31 +1,38 @@
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#ifndef _view_
-#define _view_
+typedef void(*fptr)(int);
+
 class view{
     public:
     view(int janelaX, int janelaY, int m, int n);
+    ~view();
     void atualiza();
     bool aberta();
     sf::RectangleShape *** getViews();
     sf::RenderWindow * getWindow();
-    
+    void getMessenger(fptr);
+    int linhas();
+    int colunas();
+    void randomizaShapes();
+    void limpaShapes();
     private:
+    fptr Messenger;
     int JanelaX, JanelaY,M,N;
-    sf::Event event;
     sf::RenderWindow *window;
-    sf::RectangleShape *shape;
-    sf::RectangleShape ***shapes;
+    
+    sf::RectangleShape ***shapes=NULL;
     float largura();
     float altura();
     void InsereShapes();
     void DesenhaShapes();
-    void eventos();
+    
     void sleep(float segundos);
-    void lidaComMouse(sf::Event);
-    void lidaComTeclado(sf::Event);
-    sf::Thread * threadEventos;
+
+    
+    void onClick();
+    void onMove();
+    
 };
-#endif
